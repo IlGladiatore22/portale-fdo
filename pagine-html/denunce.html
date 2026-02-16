@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sezione Denunce - Database FDO</title>
+    <link rel="stylesheet" href="../style/sezioni.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <button class="theme-toggle" id="themeToggle" aria-label="Cambia tema">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <header class="section-header">
+        <div class="header-left">
+            <div class="server-logo">
+                <i class="fas fa-shield-halved"></i>
+            </div>
+            <h1 class="section-title">Sezione Denunce</h1>
+        </div>
+        <div class="header-right">
+            <button class="btn-back" onclick="window.location.href='index.html'">
+                <i class="fas fa-arrow-left"></i>
+                <span>Indietro</span>
+            </button>
+        </div>
+    </header>
+
+    <main class="section-content">
+        <div class="action-bar">
+            <button class="btn-create" id="btnCreateMulta">
+                <i class="fas fa-plus"></i>
+                <span>Crea Denuncia</span>
+            </button>
+            <div class="search-container">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Cerca denunce...">
+            </div>
+        </div>
+
+        <div class="records-container" id="recordsContainer">
+            <!-- Le denunce verranno inserite qui dinamicamente -->
+        </div>
+    </main>
+
+    <!-- OVERLAY CREAZIONE/MODIFICA -->
+    <div class="overlay" id="overlayForm">
+        <div class="overlay-content">
+            <h2 id="formTitle">Crea Nuova Denuncia</h2>
+            <form id="multaForm">
+                <div class="form-group">
+                    <label>Nome Denunciante</label>
+                    <input type="text" id="nomeCittadino" required>
+                </div>
+                <div class="form-group">
+                    <label>Cognome Denunciante</label>
+                    <input type="text" id="cognomeCittadino" required>
+                </div>
+                <div class="form-group">
+                    <label>Codice Fiscale Denunciante</label>
+                    <input type="text" id="codiceFiscale" maxlength="16" required>
+                </div>
+                <div class="form-group">
+                    <label>Tipo Denuncia</label>
+                    <select id="tipoDenuncia" required>
+                        <option value="">Seleziona...</option>
+                        <option value="Furto">Furto</option>
+                        <option value="Smarrimento">Smarrimento</option>
+                        <option value="Danneggiamento">Danneggiamento</option>
+                        <option value="Truffa">Truffa</option>
+                        <option value="Minacce">Minacce</option>
+                        <option value="Molestie">Molestie</option>
+                        <option value="Aggressione">Aggressione</option>
+                        <option value="Stalking">Stalking</option>
+                        <option value="Diffamazione">Diffamazione</option>
+                        <option value="Violazione domicilio">Violazione domicilio</option>
+                        <option value="Altro">Altro</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Data Denuncia</label>
+                    <input type="date" id="dataDenuncia" required>
+                </div>
+                <div class="form-group">
+                    <label>Data Fatto</label>
+                    <input type="date" id="dataFatto" required>
+                </div>
+                <div class="form-group">
+                    <label>Luogo del Fatto</label>
+                    <input type="text" id="luogo" required>
+                </div>
+                <div class="form-group">
+                    <label>Descrizione Dettagliata</label>
+                    <textarea id="note" rows="5" placeholder="Descrivi dettagliatamente quanto accaduto..." required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Testimoni (se presenti)</label>
+                    <input type="text" id="testimoni" placeholder="Nomi dei testimoni">
+                </div>
+                <div class="form-group">
+                    <label>Agente che ha raccolto la denuncia</label>
+                    <input type="text" id="agenteVerbalizzante" required>
+                </div>
+                <div class="form-group">
+                    <label>Stato Denuncia</label>
+                    <select id="statoDenuncia" required>
+                        <option value="">Seleziona...</option>
+                        <option value="In attesa">In attesa</option>
+                        <option value="In corso">In corso</option>
+                        <option value="Archiviata">Archiviata</option>
+                        <option value="Risolta">Risolta</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn-cancel" id="btnCancelForm">Indietro</button>
+                    <button type="submit" class="btn-save">Salva</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- OVERLAY DETTAGLI -->
+    <div class="overlay" id="overlayDetails">
+        <div class="overlay-content">
+            <h2>Dettagli Denuncia</h2>
+            <div class="details-content" id="detailsContent">
+                <!-- I dettagli verranno inseriti qui -->
+            </div>
+            <div class="form-actions">
+                <button type="button" class="btn-cancel" id="btnCloseDetails">Indietro</button>
+                <button type="button" class="btn-edit" id="btnEditRecord">Modifica</button>
+                <button type="button" class="btn-delete" id="btnDeleteRecord">Elimina</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../script.js"></script>
+</body>
+</html>

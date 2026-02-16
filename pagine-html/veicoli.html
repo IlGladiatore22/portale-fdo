@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sezione Veicoli - Database FDO</title>
+    <link rel="stylesheet" href="../style/sezioni.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <button class="theme-toggle" id="themeToggle" aria-label="Cambia tema">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <header class="section-header">
+        <div class="header-left">
+            <div class="server-logo">
+                <i class="fas fa-shield-halved"></i>
+            </div>
+            <h1 class="section-title">Sezione Veicoli</h1>
+        </div>
+        <div class="header-right">
+            <button class="btn-back" onclick="window.location.href='index.html'">
+                <i class="fas fa-arrow-left"></i>
+                <span>Indietro</span>
+            </button>
+        </div>
+    </header>
+
+    <main class="section-content">
+        <div class="action-bar">
+            <button class="btn-create" id="btnCreateMulta">
+                <i class="fas fa-plus"></i>
+                <span>Registra Veicolo</span>
+            </button>
+            <div class="search-container">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Cerca veicoli...">
+            </div>
+        </div>
+
+        <div class="records-container" id="recordsContainer">
+            <!-- I veicoli verranno inseriti qui dinamicamente -->
+        </div>
+    </main>
+
+    <!-- OVERLAY CREAZIONE/MODIFICA -->
+    <div class="overlay" id="overlayForm">
+        <div class="overlay-content">
+            <h2 id="formTitle">Registra Nuovo Veicolo</h2>
+            <form id="multaForm">
+                <div class="form-group">
+                    <label>Nome Proprietario</label>
+                    <input type="text" id="nomeCittadino" required>
+                </div>
+                <div class="form-group">
+                    <label>Cognome Proprietario</label>
+                    <input type="text" id="cognomeCittadino" required>
+                </div>
+                <div class="form-group">
+                    <label>Codice Fiscale Proprietario</label>
+                    <input type="text" id="codiceFiscale" maxlength="16" required>
+                </div>
+                <div class="form-group">
+                    <label>Targa</label>
+                    <input type="text" id="targaVeicolo" required style="text-transform: uppercase;">
+                </div>
+                <div class="form-group">
+                    <label>Tipo Veicolo</label>
+                    <select id="tipoVeicolo" required>
+                        <option value="">Seleziona...</option>
+                        <option value="Autovettura">Autovettura</option>
+                        <option value="Motociclo">Motociclo</option>
+                        <option value="Ciclomotore">Ciclomotore</option>
+                        <option value="Furgone">Furgone</option>
+                        <option value="Autocarro">Autocarro</option>
+                        <option value="Autobus">Autobus</option>
+                        <option value="Rimorchio">Rimorchio</option>
+                        <option value="Altro">Altro</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Marca</label>
+                    <input type="text" id="marca" required>
+                </div>
+                <div class="form-group">
+                    <label>Modello</label>
+                    <input type="text" id="modello" required>
+                </div>
+                <div class="form-group">
+                    <label>Anno Immatricolazione</label>
+                    <input type="number" id="annoImmatricolazione" min="1900" max="2030" required>
+                </div>
+                <div class="form-group">
+                    <label>Colore</label>
+                    <input type="text" id="colore" required>
+                </div>
+                <div class="form-group">
+                    <label>Numero Telaio</label>
+                    <input type="text" id="numeroTelaio" required>
+                </div>
+                <div class="form-group">
+                    <label>Cilindrata (cc)</label>
+                    <input type="number" id="cilindrata" min="0">
+                </div>
+                <div class="form-group">
+                    <label>Alimentazione</label>
+                    <select id="alimentazione">
+                        <option value="">Seleziona...</option>
+                        <option value="Benzina">Benzina</option>
+                        <option value="Diesel">Diesel</option>
+                        <option value="GPL">GPL</option>
+                        <option value="Metano">Metano</option>
+                        <option value="Elettrico">Elettrico</option>
+                        <option value="Ibrido">Ibrido</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Data Immatricolazione</label>
+                    <input type="date" id="dataImmatricolazione" required>
+                </div>
+                <div class="form-group">
+                    <label>Stato Veicolo</label>
+                    <select id="statoVeicolo" required>
+                        <option value="">Seleziona...</option>
+                        <option value="Regolare">Regolare</option>
+                        <option value="Rubato">Rubato</option>
+                        <option value="Sequestrato">Sequestrato</option>
+                        <option value="Radiato">Radiato</option>
+                        <option value="Fermo Amministrativo">Fermo Amministrativo</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Note</label>
+                    <textarea id="note" rows="3"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn-cancel" id="btnCancelForm">Indietro</button>
+                    <button type="submit" class="btn-save">Salva</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- OVERLAY DETTAGLI -->
+    <div class="overlay" id="overlayDetails">
+        <div class="overlay-content">
+            <h2>Dettagli Veicolo</h2>
+            <div class="details-content" id="detailsContent">
+                <!-- I dettagli verranno inseriti qui -->
+            </div>
+            <div class="form-actions">
+                <button type="button" class="btn-cancel" id="btnCloseDetails">Indietro</button>
+                <button type="button" class="btn-edit" id="btnEditRecord">Modifica</button>
+                <button type="button" class="btn-delete" id="btnDeleteRecord">Elimina</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../script.js"></script>
+</body>
+</html>

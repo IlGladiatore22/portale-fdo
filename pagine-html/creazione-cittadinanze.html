@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sezione Cittadini - Database FDO</title>
+    <link rel="stylesheet" href="../style/sezioni.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <button class="theme-toggle" id="themeToggle" aria-label="Cambia tema">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <header class="section-header">
+        <div class="header-left">
+            <div class="server-logo">
+                <i class="fas fa-shield-halved"></i>
+            </div>
+            <h1 class="section-title">Gestione Cittadini</h1>
+        </div>
+        <div class="header-right">
+            <button class="btn-back" onclick="window.location.href='index.html'">
+                <i class="fas fa-arrow-left"></i>
+                <span>Indietro</span>
+            </button>
+        </div>
+    </header>
+
+    <main class="section-content">
+        <div class="action-bar">
+            <button class="btn-create" id="btnCreateCittadino">
+                <i class="fas fa-user-plus"></i>
+                <span>Crea Cittadino</span>
+            </button>
+            <div class="search-container">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Cerca cittadini...">
+            </div>
+        </div>
+
+        <div class="records-container" id="recordsContainer">
+            <!-- I cittadini verranno inseriti qui dinamicamente -->
+        </div>
+    </main>
+
+    <!-- OVERLAY CREAZIONE/MODIFICA -->
+    <div class="overlay" id="overlayForm">
+        <div class="overlay-content">
+            <h2 id="formTitle">Crea Nuovo Cittadino</h2>
+            <form id="cittadinoForm">
+                <div class="form-group">
+                    <label>Nome</label>
+                    <input type="text" id="nomeCittadino" required>
+                </div>
+                <div class="form-group">
+                    <label>Cognome</label>
+                    <input type="text" id="cognomeCittadino" required>
+                </div>
+                <div class="form-group">
+                    <label>Codice Fiscale</label>
+                    <input type="text" id="codiceFiscale" maxlength="16" required pattern="[A-Z0-9]{16}" style="text-transform: uppercase;">
+                    <small style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 5px; display: block;">16 caratteri alfanumerici</small>
+                </div>
+                <div class="form-group">
+                    <label>Data di Nascita</label>
+                    <input type="date" id="dataNascita" required>
+                </div>
+                <div class="form-group">
+                    <label>Luogo di Nascita</label>
+                    <input type="text" id="luogoNascita" required>
+                </div>
+                <div class="form-group">
+                    <label>Sesso</label>
+                    <select id="sesso" required>
+                        <option value="">Seleziona...</option>
+                        <option value="M">Maschio</option>
+                        <option value="F">Femmina</option>
+                        <option value="Altro">Altro</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Nazionalità</label>
+                    <input type="text" id="nazionalita" required value="Italiana">
+                </div>
+                <div class="form-group">
+                    <label>Indirizzo di Residenza</label>
+                    <input type="text" id="indirizzoResidenza" required placeholder="Via, Numero Civico">
+                </div>
+                <div class="form-group">
+                    <label>Città</label>
+                    <input type="text" id="citta" required>
+                </div>
+                <div class="form-group">
+                    <label>CAP</label>
+                    <input type="text" id="cap" required pattern="[0-9]{5}" maxlength="5">
+                </div>
+                <div class="form-group">
+                    <label>Provincia</label>
+                    <input type="text" id="provincia" required maxlength="2" placeholder="Es: RM, MI, NA" style="text-transform: uppercase;">
+                </div>
+                <div class="form-group">
+                    <label>Numero Documento</label>
+                    <input type="text" id="numeroDocumento" required>
+                </div>
+                <div class="form-group">
+                    <label>Tipo Documento</label>
+                    <select id="tipoDocumento" required>
+                        <option value="">Seleziona...</option>
+                        <option value="Carta d'Identità">Carta d'Identità</option>
+                        <option value="Patente">Patente</option>
+                        <option value="Passaporto">Passaporto</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Scadenza Documento</label>
+                    <input type="date" id="scadenzaDocumento" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="email">
+                </div>
+                <div class="form-group">
+                    <label>Telefono</label>
+                    <input type="tel" id="telefono" placeholder="+39 ...">
+                </div>
+                <div class="form-group">
+                    <label>Stato Civile</label>
+                    <select id="statoCivile">
+                        <option value="">Seleziona...</option>
+                        <option value="Celibe/Nubile">Celibe/Nubile</option>
+                        <option value="Coniugato/a">Coniugato/a</option>
+                        <option value="Divorziato/a">Divorziato/a</option>
+                        <option value="Vedovo/a">Vedovo/a</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Professione</label>
+                    <input type="text" id="professione">
+                </div>
+                <div class="form-group">
+                    <label>Note / Precedenti</label>
+                    <textarea id="note" rows="3" placeholder="Eventuali precedenti penali, note particolari..."></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn-cancel" id="btnCancelForm">Indietro</button>
+                    <button type="submit" class="btn-save">Salva Cittadino</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- OVERLAY DETTAGLI -->
+    <div class="overlay" id="overlayDetails">
+        <div class="overlay-content">
+            <h2>Dettagli Cittadino</h2>
+            <div class="details-content" id="detailsContent">
+                <!-- I dettagli verranno inseriti qui -->
+            </div>
+            <div class="form-actions">
+                <button type="button" class="btn-cancel" id="btnCloseDetails">Indietro</button>
+                <button type="button" class="btn-edit" id="btnEditRecord">Modifica</button>
+                <button type="button" class="btn-delete" id="btnDeleteRecord">Elimina</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../script.js"></script>
+    <script>
+        // Verifica che solo admin possano accedere
+        const isAdmin = localStorage.getItem('isAdmin') === 'true';
+        if (!isAdmin) {
+            alert('Accesso negato. Solo gli amministratori possono creare cittadini.');
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>

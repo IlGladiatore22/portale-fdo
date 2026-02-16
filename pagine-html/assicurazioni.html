@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sezione Assicurazioni - Database FDO</title>
+    <link rel="stylesheet" href="../style/sezioni.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <button class="theme-toggle" id="themeToggle" aria-label="Cambia tema">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <header class="section-header">
+        <div class="header-left">
+            <div class="server-logo">
+                <i class="fas fa-shield-halved"></i>
+            </div>
+            <h1 class="section-title">Sezione Assicurazioni</h1>
+        </div>
+        <div class="header-right">
+            <button class="btn-back" onclick="window.location.href='index.html'">
+                <i class="fas fa-arrow-left"></i>
+                <span>Indietro</span>
+            </button>
+        </div>
+    </header>
+
+    <main class="section-content">
+        <div class="action-bar">
+            <button class="btn-create" id="btnCreateMulta">
+                <i class="fas fa-plus"></i>
+                <span>Aggiungi Assicurazione</span>
+            </button>
+            <div class="search-container">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Cerca assicurazioni...">
+            </div>
+        </div>
+
+        <div class="records-container" id="recordsContainer">
+            <!-- Le assicurazioni verranno inserite qui dinamicamente -->
+        </div>
+    </main>
+
+    <!-- OVERLAY CREAZIONE/MODIFICA -->
+    <div class="overlay" id="overlayForm">
+        <div class="overlay-content">
+            <h2 id="formTitle">Aggiungi Nuova Assicurazione</h2>
+            <form id="multaForm">
+                <div class="form-group">
+                    <label>Nome Assicurato</label>
+                    <input type="text" id="nomeCittadino" required>
+                </div>
+                <div class="form-group">
+                    <label>Cognome Assicurato</label>
+                    <input type="text" id="cognomeCittadino" required>
+                </div>
+                <div class="form-group">
+                    <label>Codice Fiscale</label>
+                    <input type="text" id="codiceFiscale" maxlength="16" required>
+                </div>
+                <div class="form-group">
+                    <label>Compagnia Assicurativa</label>
+                    <input type="text" id="compagniaAssicurativa" required placeholder="Es: Generali, Allianz, UnipolSai...">
+                </div>
+                <div class="form-group">
+                    <label>Numero Polizza</label>
+                    <input type="text" id="numeroPolizza" required>
+                </div>
+                <div class="form-group">
+                    <label>Targa Veicolo</label>
+                    <input type="text" id="targaVeicolo" required style="text-transform: uppercase;">
+                </div>
+                <div class="form-group">
+                    <label>Tipo Veicolo</label>
+                    <select id="tipoVeicolo" required>
+                        <option value="">Seleziona...</option>
+                        <option value="Auto">Auto</option>
+                        <option value="Moto">Moto</option>
+                        <option value="Furgone">Furgone</option>
+                        <option value="Camion">Camion</option>
+                        <option value="Autobus">Autobus</option>
+                        <option value="Altro">Altro</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Tipo Copertura</label>
+                    <select id="tipoCopertura" required>
+                        <option value="">Seleziona...</option>
+                        <option value="RCA Base">RCA Base</option>
+                        <option value="RCA + Furto e Incendio">RCA + Furto e Incendio</option>
+                        <option value="Kasko">Kasko</option>
+                        <option value="Mini Kasko">Mini Kasko</option>
+                        <option value="Completa">Completa</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Data Inizio Copertura</label>
+                    <input type="date" id="dataInizio" required>
+                </div>
+                <div class="form-group">
+                    <label>Data Scadenza</label>
+                    <input type="date" id="dataScadenza" required>
+                </div>
+                <div class="form-group">
+                    <label>Premio Annuale (€)</label>
+                    <input type="number" id="importo" min="0" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label>Classe di Merito</label>
+                    <select id="classeMerito">
+                        <option value="">Seleziona...</option>
+                        <option value="1">Classe 1</option>
+                        <option value="2">Classe 2</option>
+                        <option value="3">Classe 3</option>
+                        <option value="4">Classe 4</option>
+                        <option value="5">Classe 5</option>
+                        <option value="6">Classe 6</option>
+                        <option value="7">Classe 7</option>
+                        <option value="8">Classe 8</option>
+                        <option value="9">Classe 9</option>
+                        <option value="10">Classe 10</option>
+                        <option value="11">Classe 11</option>
+                        <option value="12">Classe 12</option>
+                        <option value="13">Classe 13</option>
+                        <option value="14">Classe 14</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Note</label>
+                    <textarea id="note" rows="3"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn-cancel" id="btnCancelForm">Indietro</button>
+                    <button type="submit" class="btn-save">Salva</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- OVERLAY DETTAGLI -->
+    <div class="overlay" id="overlayDetails">
+        <div class="overlay-content">
+            <h2>Dettagli Assicurazione</h2>
+            <div class="details-content" id="detailsContent">
+                <!-- I dettagli verranno inseriti qui -->
+            </div>
+            <div class="form-actions">
+                <button type="button" class="btn-cancel" id="btnCloseDetails">Indietro</button>
+                <button type="button" class="btn-edit" id="btnEditRecord">Modifica</button>
+                <button type="button" class="btn-delete" id="btnDeleteRecord">Elimina</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../script.js"></script>
+</body>
+</html>

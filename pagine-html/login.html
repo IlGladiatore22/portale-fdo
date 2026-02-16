@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema Forze dell'Ordine - Login</title>
+    <link rel="stylesheet" href="../style/login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <button class="theme-toggle" id="themeToggle" aria-label="Cambia tema">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <div class="login-container">
+        <div class="login-frame">
+            <div class="header">
+                <div class="logo">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h1>Sistema Forze dell'Ordine</h1>
+                <p class="subtitle">Database Unificato Nazionale</p>
+            </div>
+
+            <form id="loginForm" class="login-form">
+                <div class="input-group">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="username" placeholder="Nome Utente" required autocomplete="username">
+                </div>
+
+                <div class="input-group">
+                    <i class="fas fa-key"></i>
+                    <input type="password" id="password" placeholder="Password" required autocomplete="current-password">
+                    <button type="button" class="toggle-password" id="togglePassword">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+
+                <button type="submit" class="btn-login">
+                    <span>Accedi</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+
+                <div class="error-message" id="errorMessage"></div>
+            </form>
+
+            <div class="footer">
+                <p><i class="fas fa-lock"></i> Connessione Sicura - Sistema Protetto</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="../script.js"></script>
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sezione Arresti - Database FDO</title>
+    <link rel="stylesheet" href="../style/sezioni.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <button class="theme-toggle" id="themeToggle" aria-label="Cambia tema">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <header class="section-header">
+        <div class="header-left">
+            <div class="server-logo">
+                <i class="fas fa-shield-halved"></i>
+            </div>
+            <h1 class="section-title">Sezione Arresti</h1>
+        </div>
+        <div class="header-right">
+            <button class="btn-back" onclick="window.location.href='index.html'">
+                <i class="fas fa-arrow-left"></i>
+                <span>Indietro</span>
+            </button>
+        </div>
+    </header>
+
+    <main class="section-content">
+        <div class="action-bar">
+            <button class="btn-create" id="btnCreateMulta">
+                <i class="fas fa-plus"></i>
+                <span>Crea Arresto</span>
+            </button>
+            <div class="search-container">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Cerca arresti...">
+            </div>
+        </div>
+
+        <div class="records-container" id="recordsContainer">
+            <!-- Gli arresti verranno inseriti qui dinamicamente -->
+        </div>
+    </main>
+
+    <!-- OVERLAY CREAZIONE/MODIFICA -->
+    <div class="overlay" id="overlayForm">
+        <div class="overlay-content">
+            <h2 id="formTitle">Crea Nuovo Arresto</h2>
+            <form id="multaForm">
+                <div class="form-group">
+                    <label>Nome Arrestato</label>
+                    <input type="text" id="nomeCittadino" required>
+                </div>
+                <div class="form-group">
+                    <label>Cognome Arrestato</label>
+                    <input type="text" id="cognomeCittadino" required>
+                </div>
+                <div class="form-group">
+                    <label>Codice Fiscale</label>
+                    <input type="text" id="codiceFiscale" maxlength="16" required>
+                </div>
+                <div class="form-group">
+                    <label>Tipo Reato</label>
+                    <select id="tipoReato" required>
+                        <option value="">Seleziona...</option>
+                        <option value="Furto">Furto</option>
+                        <option value="Rapina">Rapina</option>
+                        <option value="Spaccio di stupefacenti">Spaccio di stupefacenti</option>
+                        <option value="Possesso di stupefacenti">Possesso di stupefacenti</option>
+                        <option value="Guida in stato di ebbrezza">Guida in stato di ebbrezza</option>
+                        <option value="Resistenza a pubblico ufficiale">Resistenza a pubblico ufficiale</option>
+                        <option value="Violenza domestica">Violenza domestica</option>
+                        <option value="Lesioni personali">Lesioni personali</option>
+                        <option value="Truffa">Truffa</option>
+                        <option value="Ricettazione">Ricettazione</option>
+                        <option value="Altro">Altro</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Data Arresto</label>
+                    <input type="date" id="dataArresto" required>
+                </div>
+                <div class="form-group">
+                    <label>Ora Arresto</label>
+                    <input type="time" id="oraArresto" required>
+                </div>
+                <div class="form-group">
+                    <label>Luogo Arresto</label>
+                    <input type="text" id="luogo" required>
+                </div>
+                <div class="form-group">
+                    <label>Circostanze</label>
+                    <textarea id="note" rows="4" placeholder="Descrivi le circostanze dell'arresto..." required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Agente Operante</label>
+                    <input type="text" id="agenteVerbalizzante" required>
+                </div>
+                <div class="form-group">
+                    <label>Stato Custodia</label>
+                    <select id="statoCustodia" required>
+                        <option value="">Seleziona...</option>
+                        <option value="In custodia">In custodia</option>
+                        <option value="Rilasciato">Rilasciato</option>
+                        <option value="Trasferito">Trasferito</option>
+                        <option value="In attesa di giudizio">In attesa di giudizio</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn-cancel" id="btnCancelForm">Indietro</button>
+                    <button type="submit" class="btn-save">Salva</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- OVERLAY DETTAGLI -->
+    <div class="overlay" id="overlayDetails">
+        <div class="overlay-content">
+            <h2>Dettagli Arresto</h2>
+            <div class="details-content" id="detailsContent">
+                <!-- I dettagli verranno inseriti qui -->
+            </div>
+            <div class="form-actions">
+                <button type="button" class="btn-cancel" id="btnCloseDetails">Indietro</button>
+                <button type="button" class="btn-edit" id="btnEditRecord">Modifica</button>
+                <button type="button" class="btn-delete" id="btnDeleteRecord">Elimina</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../script.js"></script>
+</body>
+</html>

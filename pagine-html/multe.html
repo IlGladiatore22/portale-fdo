@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sezione Multe - Database FDO</title>
+    <link rel="stylesheet" href="../style/sezioni.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <button class="theme-toggle" id="themeToggle" aria-label="Cambia tema">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <header class="section-header">
+        <div class="header-left">
+            <div class="server-logo">
+                <i class="fas fa-shield-halved"></i>
+            </div>
+            <h1 class="section-title">Sezione Multe</h1>
+        </div>
+        <div class="header-right">
+            <button class="btn-back" onclick="window.location.href='index.html'">
+                <i class="fas fa-arrow-left"></i>
+                <span>Indietro</span>
+            </button>
+        </div>
+    </header>
+
+    <main class="section-content">
+        <div class="action-bar">
+            <button class="btn-create" id="btnCreateMulta">
+                <i class="fas fa-plus"></i>
+                <span>Crea Multa</span>
+            </button>
+            <div class="search-container">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Cerca multe...">
+            </div>
+        </div>
+
+        <div class="records-container" id="recordsContainer">
+            <!-- Le multe verranno inserite qui dinamicamente -->
+        </div>
+    </main>
+
+    <!-- OVERLAY CREAZIONE/MODIFICA -->
+    <div class="overlay" id="overlayForm">
+        <div class="overlay-content">
+            <h2 id="formTitle">Crea Nuova Multa</h2>
+            <form id="multaForm">
+                <div class="form-group">
+                    <label>Nome Cittadino</label>
+                    <input type="text" id="nomeCittadino" required>
+                </div>
+                <div class="form-group">
+                    <label>Cognome Cittadino</label>
+                    <input type="text" id="cognomeCittadino" required>
+                </div>
+                <div class="form-group">
+                    <label>Codice Fiscale</label>
+                    <input type="text" id="codiceFiscale" maxlength="16" required>
+                </div>
+                <div class="form-group">
+                    <label>Targa Veicolo</label>
+                    <input type="text" id="targaVeicolo" required>
+                </div>
+                <div class="form-group">
+                    <label>Tipo Infrazione</label>
+                    <select id="tipoInfrazione" required>
+                        <option value="">Seleziona...</option>
+                        <option value="Eccesso di velocità">Eccesso di velocità</option>
+                        <option value="Divieto di sosta">Divieto di sosta</option>
+                        <option value="Mancato stop">Mancato stop</option>
+                        <option value="Sorpasso vietato">Sorpasso vietato</option>
+                        <option value="Guida pericolosa">Guida pericolosa</option>
+                        <option value="Altro">Altro</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Importo (€)</label>
+                    <input type="number" id="importo" min="0" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label>Data Infrazione</label>
+                    <input type="date" id="dataInfrazione" required>
+                </div>
+                <div class="form-group">
+                    <label>Luogo</label>
+                    <input type="text" id="luogo" required>
+                </div>
+                <div class="form-group">
+                    <label>Note</label>
+                    <textarea id="note" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Agente Verbalizzante</label>
+                    <input type="text" id="agenteVerbalizzante" required>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn-cancel" id="btnCancelForm">Indietro</button>
+                    <button type="submit" class="btn-save">Salva</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- OVERLAY DETTAGLI -->
+    <div class="overlay" id="overlayDetails">
+        <div class="overlay-content">
+            <h2>Dettagli Multa</h2>
+            <div class="details-content" id="detailsContent">
+                <!-- I dettagli verranno inseriti qui -->
+            </div>
+            <div class="form-actions">
+                <button type="button" class="btn-cancel" id="btnCloseDetails">Indietro</button>
+                <button type="button" class="btn-edit" id="btnEditRecord">Modifica</button>
+                <button type="button" class="btn-delete" id="btnDeleteRecord">Elimina</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../script.js"></script>
+</body>
+</html>

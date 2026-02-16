@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ricerca Cittadini - Database FDO</title>
+    <link rel="stylesheet" href="../style/sezioni.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <button class="theme-toggle" id="themeToggle" aria-label="Cambia tema">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <header class="section-header">
+        <div class="header-left">
+            <div class="server-logo">
+                <i class="fas fa-shield-halved"></i>
+            </div>
+            <h1 class="section-title">Ricerca Cittadini</h1>
+        </div>
+        <div class="header-right">
+            <button class="btn-back" onclick="window.location.href='index.html'">
+                <i class="fas fa-arrow-left"></i>
+                <span>Indietro</span>
+            </button>
+        </div>
+    </header>
+
+    <main class="section-content">
+        <div class="action-bar">
+            <div class="search-container" style="max-width: 100%;">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Cerca per nome, cognome, codice fiscale...">
+            </div>
+        </div>
+
+        <div class="records-container" id="recordsContainer">
+            <!-- I cittadini verranno inseriti qui dinamicamente -->
+        </div>
+    </main>
+
+    <!-- OVERLAY DETTAGLI -->
+    <div class="overlay" id="overlayDetails">
+        <div class="overlay-content">
+            <h2>Dettagli Cittadino</h2>
+            <div class="details-content" id="detailsContent">
+                <!-- I dettagli verranno inseriti qui -->
+            </div>
+            <div class="form-actions">
+                <button type="button" class="btn-cancel" id="btnCloseDetails">Indietro</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../script.js"></script>
+    <script>
+        // Pagina di sola consultazione - carica i cittadini dal database creazione
+        const isCittadiniPage = true;
+        const recordsContainer = document.getElementById('recordsContainer');
+        const searchInput = document.getElementById('searchInput');
+        
+        let cittadini = [];
+
+        function loadCittadini() {
+            cittadini = JSON.parse(localStorage.getItem('cittadini_registrati') || '[]');
+            renderCittadini();
+        }
+
+        function renderCittadini(filter = '') {
+            const filtered = filter
+                ? cittadini.filter(c =>
+                    `${c.nomeCittadino} ${c.cognomeCittadino} ${c.codiceFiscale}`.toLowerCase().includes(filter.toLowerCase())
+                )
+                : cittadini;
+
+            if (filtered.length === 0) {
+                recordsContainer.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-users"></i>
+                        <h3>Nessun cittadino trovato</h3>
+                        <p>I cittadini devono essere creati dagli amministratori</p>
+                    </div>
+                `;
+                return;
+            }
+
+            recordsContainer.innerHTML = filtered.map(cittadino => `
+                <div class="record-item" data-id="${cittadino.id}">
+                    <div class="record-info">
+                        <h3>${cittadino.nomeCittadino} ${cittadino.cognomeCittadino}</h3>
+                        <p>CF: ${cittadino.codiceFiscale} | Nato/a: ${cittadino.dataNascita} | ${cittadino.citta} (${cittadino.provincia})</p>
+                    </div>
+                    <div class="record-actions">
+                        <button class="btn-details" onclick="showCittadinoDetails(${cittadino.id})">Dettagli</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        window.showCittadinoDetails = function(id) {
+            const cittadino = cittadini.find(c => c.id === id);
+            if (!cittadino) return;
+
+            const detailsContent = document.getElementById('detailsContent');
+            detailsContent.innerHTML = `
+                <div class="detail-row">
+                    <div class="detail-label">Nome:</div>
+                    <div class="detail-value">${cittadino.nomeCittadino}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Cognome:</div>
+                    <div class="detail-value">${cittadino.cognomeCittadino}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Codice Fiscale:</div>
+                    <div class="detail-value">${cittadino.codiceFiscale}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Data di Nascita:</div>
+                    <div class="detail-value">${cittadino.dataNascita}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Luogo di Nascita:</div>
+                    <div class="detail-value">${cittadino.luogoNascita}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Sesso:</div>
+                    <div class="detail-value">${cittadino.sesso}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Nazionalità:</div>
+                    <div class="detail-value">${cittadino.nazionalita}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Residenza:</div>
+                    <div class="detail-value">${cittadino.indirizzoResidenza}, ${cittadino.citta} (${cittadino.provincia}) - ${cittadino.cap}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Documento:</div>
+                    <div class="detail-value">${cittadino.tipoDocumento} n. ${cittadino.numeroDocumento} (scad. ${cittadino.scadenzaDocumento})</div>
+                </div>
+                ${cittadino.email ? `
+                <div class="detail-row">
+                    <div class="detail-label">Email:</div>
+                    <div class="detail-value">${cittadino.email}</div>
+                </div>` : ''}
+                ${cittadino.telefono ? `
+                <div class="detail-row">
+                    <div class="detail-label">Telefono:</div>
+                    <div class="detail-value">${cittadino.telefono}</div>
+                </div>` : ''}
+                ${cittadino.statoCivile ? `
+                <div class="detail-row">
+                    <div class="detail-label">Stato Civile:</div>
+                    <div class="detail-value">${cittadino.statoCivile}</div>
+                </div>` : ''}
+                ${cittadino.professione ? `
+                <div class="detail-row">
+                    <div class="detail-label">Professione:</div>
+                    <div class="detail-value">${cittadino.professione}</div>
+                </div>` : ''}
+                ${cittadino.note ? `
+                <div class="detail-row">
+                    <div class="detail-label">Note / Precedenti:</div>
+                    <div class="detail-value">${cittadino.note}</div>
+                </div>` : ''}
+                <div class="detail-row">
+                    <div class="detail-label">Registrato il:</div>
+                    <div class="detail-value">${new Date(cittadino.timestamp).toLocaleString('it-IT')}</div>
+                </div>
+            `;
+
+            document.getElementById('overlayDetails').classList.add('active');
+        };
+
+        searchInput.addEventListener('input', (e) => {
+            renderCittadini(e.target.value);
+        });
+
+        document.getElementById('btnCloseDetails').addEventListener('click', () => {
+            document.getElementById('overlayDetails').classList.remove('active');
+        });
+
+        document.getElementById('overlayDetails').addEventListener('click', (e) => {
+            if (e.target.id === 'overlayDetails') {
+                document.getElementById('overlayDetails').classList.remove('active');
+            }
+        });
+
+        loadCittadini();
+    </script>
+</body>
+</html>
